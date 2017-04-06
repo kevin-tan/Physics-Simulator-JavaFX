@@ -41,7 +41,6 @@ loopy:
 	inc bl
 	mov eax,0 ;clear eax register
 	mov al,[esi] ;get the number from memory into al
-	mov dl,al ;put it inside dl as well
 	jmp loopy
 
 .end:	
