@@ -7,7 +7,7 @@ section .data
 
 section .bss
 ;unitinitalized data being used
-	isprime: resb 1
+	
 section .text
         global _start
 
