@@ -1,0 +1,49 @@
+     1                                  ;Kevin Tan
+     2                                  ;Programming assignment NASM
+     3                                  
+     4                                  section .data
+     5 00000000 05                      	number db 5
+     6 00000001 01                      	answer db 1 ;1 means prime, 0 means not prime
+     7                                  
+     8                                  section .bss
+     9                                  ;unitinitalized data being used
+    10 00000000 <res 00000001>          	isprime: resb 1
+    11                                  section .text
+    12                                          global _start
+    13                                  
+    14                                  _start:
+    15 00000000 BE[00000000]            	mov esi, number ;get the offset of number into esi
+    16                                  	
+    17                                  
+    18                                  keith:	
+    19 00000005 BF[01000000]            	mov edi, answer
+    20 0000000A B800000000              	mov eax,0 ;clear eax register
+    21 0000000F 8A06                    	mov al,[esi] ;get the number from memory into al
+    22 00000011 88C2                    	mov dl,al ;put it inside dl as well 		
+    23 00000013 B302                    	mov bl, 2 ;bl holds each divisor starting from 2
+    24                                  	
+    25                                  loopy:	
+    26 00000015 38C3                    	cmp bl,al ;condition divisor < number
+    27 00000017 7D25                    	jge .end
+    28 00000019 F6F3                    	div bl ;eax/ebx with quot in eax and rem in ah
+    29 0000001B 662500FF                	and ax,1111111100000000b ;isolate the rem in ah with a AND mask to determine whether the 						;remainder is 0
+    30 0000001F 80FC00                  	cmp ah,0 ;the remainder of number / divisor is 0
+    31 00000022 7402                    	je .condition ;if not prime
+    32                                  	
+    33 00000024 EB0B                    	jmp .inc
+    34                                  
+    35                                  .condition:
+    36 00000026 BF00000000              	mov edi,0
+    37 0000002B 893D[01000000]          	mov [answer],edi ;not prime
+    38                                  
+    39                                  .inc:
+    40 00000031 FEC3                    	inc bl
+    41 00000033 B800000000              	mov eax,0 ;clear eax register
+    42 00000038 8A06                    	mov al,[esi] ;get the number from memory into al
+    43 0000003A 88C2                    	mov dl,al ;put it inside dl as well
+    44 0000003C EBD7                    	jmp loopy
+    45                                  
+    46                                  .end:	
+    47 0000003E B801000000                      mov eax,1            ; The system call for exit (sys_exit)
+    48 00000043 BB00000000                      mov ebx,0            ; Exit with return code of 0 (no error)
+    49 00000048 CD80                    	int 80h
