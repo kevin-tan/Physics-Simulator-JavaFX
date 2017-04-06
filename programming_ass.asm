@@ -26,7 +26,8 @@ loopy:
 	cmp bl,al ;condition divisor < number
 	jge .end
 	div bl ;eax/ebx with quot in eax and rem in ah
-	and ax,1111111100000000b ;isolate the rem in ah with a AND mask to determine whether the 						;remainder is 0
+	and ax,1111111100000000b ;isolate the rem in ah with a AND mask to determine whether the 						
+				 ;remainder is 0, AX = 16 bits, AX = AL(8bits)|AH(8bits)
 	cmp ah,0 ;the remainder of number / divisor is 0
 	je .condition ;if not prime
 	
